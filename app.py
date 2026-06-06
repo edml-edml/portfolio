@@ -27,10 +27,11 @@ def parse_mt5_csv(file_bytes):
         except UnicodeDecodeError:
             text = file_bytes.decode('utf-16')
 
+    # 【修正箇所】「時間」と「損益」の両方が含まれる行をヘッダーとして厳密に検索
     lines = text.splitlines()
     header_idx = 0
     for i, line in enumerate(lines):
-        if '損益' in line or 'Profit' in line:
+        if ('損益' in line and '時間' in line) or ('Profit' in line and 'Time' in line):
             header_idx = i
             break
 
